@@ -3,8 +3,8 @@
 require_once "config.php";
  
 // Define variables and initialize with empty values
-$name = $address = $salary = "";
-$name_err = $address_err = $salary_err = "";
+$name = $address = $salary = $BIC = $IBAN = $PPSNo = "";
+$name_err = $address_err = $salary_err = $BIC_err = $IBAN_err = $PPSNo_err = "";
  
 // Processing form data when form is submitted
 if(isset($_POST["id"]) && !empty($_POST["id"])){
@@ -39,19 +39,51 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
         $salary = $input_salary;
     }
     
+    // Validate BIC
+    $input_BIC = trim($_POST["BIC"]);
+    if(empty($input_BIC)){
+        $BIC_err = "Please enter the BIC code.";     
+    } elseif(!ctype_digit($input_BIC)){
+        $BIC_err = "Please enter a valid BIC.";
+    } else{
+        $BIC = $input_BIC;
+    }
+    
+    // Validate IBAN
+    $input_IBAN = trim($_POST["IBAN"]);
+    if(empty($input_IBAN)){
+        $IBAN_err = "Please enter the IBAN.";     
+    } elseif(!ctype_digit($input_IBAN)){
+        $IBAN_err = "Please enter a a valid IBAN.";
+    } else{
+        $IBAN = $input_IBAN;
+    }
+    
+    // Validate PPSNo
+    $input_PPSNo = trim($_POST["PPSNo"]);
+    if(empty($input_PPSNo)){
+        $PPSNo_err = "Please enter the PPSNo.";     
+    } elseif(!ctype_digit($input_PPSNo)){
+        $PPSNo_err = "Please enter a valid PPSNo.";
+    } else{
+        $PPSNo = $input_PPSNo;
+    }
     // Check input errors before inserting in database
-    if(empty($name_err) && empty($address_err) && empty($salary_err)){
+    if(empty($name_err) && empty($address_err) && empty($salary_err) && empty($BIC_err) && empty($IBAN_err) && empty($PPSNo_err)){
         // Prepare an update statement
-        $sql = "UPDATE employees SET name=?, address=?, salary=? WHERE id=?";
+        $sql = "UPDATE employees SET name=?, address=?, salary=? BIC=? IBAN=? PPSNo=? WHERE id=?";
          
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "sssi", $param_name, $param_address, $param_salary, $param_id);
+            mysqli_stmt_bind_param($stmt, "ssssssi", $param_name, $param_address, $param_salary, $param_BIC, $param_IBAN, $param_PPSNo, $param_id );
             
             // Set parameters
             $param_name = $name;
             $param_address = $address;
             $param_salary = $salary;
+            $param_salary = $BIC;
+            $param_salary = $IBAN;
+            $param_salary = $PPSNo;
             $param_id = $id;
             
             // Attempt to execute the prepared statement
@@ -97,6 +129,9 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
                     $name = $row["name"];
                     $address = $row["address"];
                     $salary = $row["salary"];
+                    $BIC = $row["BIC"];
+                    $IBAN = $row["IBAN"];
+                    $PPSNo = $row["PPSNo"];
                 } else{
                     // URL doesn't contain valid id. Redirect to error page
                     header("location: error.php");
@@ -158,6 +193,21 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
                             <label>Salary</label>
                             <input type="text" name="salary" class="form-control" value="<?php echo $salary; ?>">
                             <span class="help-block"><?php echo $salary_err;?></span>
+                        </div>
+                        <div class="form-group <?php echo (!empty($BIC_err)) ? 'has-error' : ''; ?>">
+                            <label>BIC</label>
+                            <input type="text" name="BIC" class="form-control" value="<?php echo $BIC; ?>">
+                            <span class="help-block"><?php echo $BIC_err;?></span>
+                        </div>
+                        <div class="form-group <?php echo (!empty($IBAN_err)) ? 'has-error' : ''; ?>">
+                            <label>IBAN</label>
+                            <input type="text" name="IBAN" class="form-control" value="<?php echo $IBAN; ?>">
+                            <span class="help-block"><?php echo $IBAN_err;?></span>
+                        </div>
+                        <div class="form-group <?php echo (!empty($PPSNo_err)) ? 'has-error' : ''; ?>">
+                            <label>PPSNo</label>
+                            <input type="text" name="PPSNo" class="form-control" value="<?php echo $PPSNo; ?>">
+                            <span class="help-block"><?php echo $PPSNo_err;?></span>
                         </div>
                         <input type="hidden" name="id" value="<?php echo $id; ?>"/>
                         <input type="submit" class="btn btn-primary" value="Submit">

@@ -52,6 +52,7 @@ if (isset($_POST['reg_user'])) {
   // Finally, register user if there are no errors in the form
   if (count($errors) == 0) {
   	$password = md5($password_1);//encrypt the password before saving in the database
+  	//BCRYPT SALT PASSWORD
 
   	$query = "INSERT INTO users (username, email, password) 
   			  VALUES('$username', '$email', '$password')";
@@ -89,3 +90,13 @@ if (isset($_POST['login_user'])) {
 }
 
 ?>
+
+
+
+mysql-ctl install
+Then install phpMyAdmin:
+
+phpmyadmin-ctl install
+After the installation is complete you’ll just want to make sure mysql is running once more:
+
+mysql-ctl start

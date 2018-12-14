@@ -22,7 +22,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $input_address = trim($_POST["address"]);
     if(empty($input_address)){
         $address_err = "Please enter an address.";     
-    } else{
+    } 
+    
+    // xss example showing that if you comment out this else if below a user will be able to preforme a stored xss attack 
+    //regexp is used to check for any spechial charicatars that might be entered
+    //https://stackoverflow.com/questions/1996122/how-to-prevent-xss-with-html-php
+    //elseif(!filter_var($address, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^[a-zA-Z\s]+$/")))){
+    //    $name_err = "Please enter a valid address.";
+    //}
+    
+    else{
         $address = $input_address;
     }
     
@@ -36,7 +45,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $salary = $input_salary;
     }
     
-    // Validate salary
+    // Validate BIC
     $input_BIC = trim($_POST["BIC"]);
     if(empty($input_BIC)){
         $salary_err = "Please enter the BIC.";     
@@ -46,7 +55,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $BIC = $input_BIC;
     }
     
-    // Validate salary
+    // Validate IBAN
     $input_IBAN = trim($_POST["IBAN"]);
     if(empty($input_IBAN)){
         $IBAN_err = "Please enter the IBAN code.";     
@@ -56,7 +65,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $IBAN = $input_IBAN;
     }
     
-    // Validate salary
+    // Validate PPSNo
     $input_PPSNo = trim($_POST["PPSNo"]);
     if(empty($input_PPSNo)){
         $PPSNo = "Please enter the PPS number.";     

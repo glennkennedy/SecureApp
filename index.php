@@ -63,7 +63,7 @@
                                         echo "<th>Salary</th>";
                                          echo "<th>BIC</th>";
                                         echo "<th>IBAN</th>";
-                                        echo "<th>PPS No.</th>";
+                                        echo "<th>PPSNo</th>";
                                         echo "<th>Action</th>";
                                     echo "</tr>";
                                 echo "</thead>";
@@ -76,7 +76,7 @@
                                         echo "<td>" . $row['salary'] . "</td>";
                                         echo "<td>" . $row['BIC'] . "</td>";
                                         echo "<td>" . $row['IBAN'] . "</td>";
-                                        echo "<td>" . $row['PPS No.'] . "</td>";
+                                        echo "<td>" . $row['PPSNo'] . "</td>";
                                         echo "<td>";
                                             echo "<a href='read.php?id=". $row['id'] ."' title='View Record' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open'></span></a>";
                                             echo "<a href='update.php?id=". $row['id'] ."' title='Update Record' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a>";
